@@ -5,7 +5,7 @@ Changes in Allgress Version
 3. Added to-schema function. to-schema wraps the existing to-schema-transaction. For Clojure,
 it's just a pass-through. For ClojureScript, the resulting transaction data is converted to
 the map from required to initialize a Datascript instance.
-4. Dependency info (only internally available now): `[allgress/datomic-helpers "2.0.0"]
+4. Dependency info (only internally available now): [allgress/datomic-helpers "2.0.0"]
 
 Original README
 ===============
