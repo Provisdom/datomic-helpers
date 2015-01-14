@@ -18,7 +18,7 @@
                   [boot-deps "0.1.3" :scope "test"]
                   [allgress/boot-tasks "0.1.8" :scope "test"]
                   [adzerk/bootlaces "0.1.8" :scope "test"]
-                  [com.datomic/datomic-pro "0.9.5078" :scope "test" :exclusions [org.apache.httpcomponents/httpclient]]])
+                  [com.datomic/datomic-pro "0.9.5130" :scope "test" :exclusions [org.apache.httpcomponents/httpclient]]])
 
 (require
   '[adzerk.boot-cljs :refer :all]
