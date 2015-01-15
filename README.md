@@ -5,7 +5,9 @@ Changes in Allgress Version
 3. Added to-schema function. to-schema wraps the existing to-schema-transaction. For Clojure,
 it's just a pass-through. For ClojureScript, the resulting transaction data is converted to
 the map from required to initialize a Datascript instance.
-4. Dependency info (only internally available now): [allgress/datomic-helpers "2.0.0"]
+4. Track entity definitions by reference (Clojure identical? function) and replace with :db/id
+if the same entity is used in multiple places.
+5. Dependency info (only internally available now): [allgress/datomic-helpers "2.0.1"]
 
 Original README
 ===============
@@ -200,12 +202,12 @@ form is enough for me, and helps me significantly.
 
 Leiningen
 ```clojure
-[allgress/datomic-helpers "2.0.0"]
+[allgress/datomic-helpers "2.0.1"]
 ```
 
 Gradle
 ```
-compile "allgress:datomic-helpers:2.0.0"
+compile "allgress:datomic-helpers:2.0.1"
 ```
 
 Maven
@@ -213,6 +215,6 @@ Maven
 <dependency>
   <groupId>allgress</groupId>
   <artifactId>datomic-helpers</artifactId>
-  <version>2.0.0</version>
+  <version>2.0.1</version>
 </dependency>
 ```

@@ -3,8 +3,8 @@
   (:use clojure.test))
 
  (comment ;; try it
-  (translate-value {:a 1 :b 2 :c {:subA 11 :subB 12}})
-  (translate-value [{:a 1 :b 2}])
+  (translate-value {} {:a 1 :b 2 :c {:subA 11 :subB 12}})
+  (translate-value {} [{:a 1 :b 2}])
   )
 
  (with-test

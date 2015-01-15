@@ -10,7 +10,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; TO-TRANSACTION
 
-(defn- translate-value [v]
+(def dbids (atom {}))
+
+(defn- translate-value
+  [v]
   ;; Returns a vector of two elements:
   ;; 1. The replacement for V (new :db/id value if V is a map,
   ;;    a vector with maps replaced by :db/id's if V is a vector, etc.)
@@ -20,16 +23,20 @@
                             (let [mapped (map translate-value values)]
                               [(reduce conj [] (map first mapped))
                                (reduce concat '() (map second mapped))]))]
-    (cond (map? v) (let [id (tempid :db.part/user)
-                         translated-vals (translate-values (vals v))
-                         translated-map (zipmap (keys v)
-                                                (first translated-vals))]
-                     [id (cons (assoc translated-map :db/id id)
-                               (second translated-vals))])
+    (cond (map? v) (if-let [existing-id (some #(when (identical? v (first %)) (second %)) @dbids)]
+                     [existing-id nil]
+                     (let [id (tempid :db.part/user)
+                           d (swap! dbids assoc v id)
+                           translated-vals (translate-values (vals v))
+                           translated-map (zipmap (keys v)
+                                                  (first translated-vals))]
+                       [id (cons (assoc translated-map :db/id id)
+                                 (second translated-vals))]))
           (vector? v) (translate-values v)
           :else [v nil])))
 
 (defn to-transaction [data-map]
+  (reset! dbids {})
   (vec (second (translate-value data-map))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -82,8 +89,8 @@
       (if (apply not= (map #(dissoc %1 :db/id)
                            (groups attr)))
         (throw #+clj (IllegalArgumentException.
-                 (str "Different definitions of attribute " attr " : "
-                      (groups attr)))
+                       (str "Different definitions of attribute " attr " : "
+                            (groups attr)))
                #+cljs (js/Error.
                         (str "Different definitions of attribute " attr " : "
                              (groups attr))))
@@ -122,8 +129,8 @@
 
 #+cljs
 (defn tempid
-      [partition]
-      (d/tempid partition))
+  [partition]
+  (d/tempid partition))
 ;;;
 ;;; If you covnert huge amount of data and want to avoid
 ;;; reflection for speedup, just redefine the above
