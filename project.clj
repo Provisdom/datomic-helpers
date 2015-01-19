@@ -1,4 +1,4 @@
-(defproject allgress/datomic-helpers "2.0.1"
+(defproject allgress/datomic-helpers "2.0.2"
   :description "Convenience functions to populate Datomic DB with data, to define DB schema."
   :url "https://github.com/allgress/datomic-helpers"
   :license {:name "MIT License" :url "file://./LICENSE"}

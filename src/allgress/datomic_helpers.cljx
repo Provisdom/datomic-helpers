@@ -65,8 +65,10 @@
                               (if-not (symbol? val)
                                 (let [[extra-props inner-val] (strip-props val)]
                                   (cons (merge {:db/ident              attr
-                                                :db/valueType          (if (or (map? inner-val)
-                                                                               (set? inner-val))
+                                                :db/valueType          (if
+                                                                         #+clj (or (map? inner-val)
+                                                                                   (set? inner-val))
+                                                                         #+cljs (map? inner-val)
                                                                          :db.type/ref
                                                                          inner-val)
                                                 :db/cardinality        :db.cardinality/one ; just a default, may be overriden by extra-props
@@ -106,7 +108,7 @@
 
   #+cljs
   (let [s (to-schema-transaction type)]
-    (into {} (map (fn [x] [(:db/ident x) x]) s))))
+    (into {} (map (fn [x] [(:db/ident x) (into {} (filter (fn [[k v]] (not (#{:db.install/_attribute} k))) x))]) s))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Datomic API
