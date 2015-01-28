@@ -1,5 +1,5 @@
 (set-env!
-  :source-paths #{"src"}
+  :source-paths #{"src" "test"}
   :resource-paths #{"src"}
   :asset-paths #{}
   :wagons '[[s3-wagon-private "1.1.2"]]
@@ -15,7 +15,7 @@
                   [pandeiro/boot-http "0.4.2" :scope "test"]
                   [deraen/boot-cljx "0.2.1" :scope "test"]
                   [cljsjs/boot-cljsjs "0.4.0"]
-                  [boot-deps "0.1.3" :scope "test"]
+                  [boot-deps "0.1.4" :scope "test"]
                   [allgress/boot-tasks "0.1.8" :scope "test"]
                   [adzerk/bootlaces "0.1.8" :scope "test"]
                   [com.datomic/datomic-pro "0.9.5130" :scope "test" :exclusions [org.apache.httpcomponents/httpclient]]])
