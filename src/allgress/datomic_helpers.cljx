@@ -99,15 +99,11 @@
 (defn to-schema-transaction [type]
   (doall (cleanup-duplicates (to-schema-transaction- type))))
 
+#+cljs
 (defn to-schema
-  [type]
-  #+clj
-  (to-schema-transaction type)
-
-  #+cljs
-  (let [s (filter :db.install/_attribute (to-schema-transaction type))]
-    (into {} (map (fn [x] [(:db/ident x) (into {} (filter (fn [[k v]] (or (not (#{:db.install/_attribute :db/valueType} k))
-                                                                          (and (= :db/valueType k) (= :db.type/ref v)))) x))]) s))))
+  [tx-data]
+  (into {} (map (fn [x] [(:db/ident x) (into {} (filter (fn [[k v]] (or (#{:db/unique :db/cardinality} k)
+                                                                        (and (= :db/valueType k) (= :db.type/ref v)))) x))]) tx-data)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Datomic API

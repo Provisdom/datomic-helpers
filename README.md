@@ -2,9 +2,9 @@ Changes in Allgress Version
 ===========================
 1. Set up to build with boot.
 2. Converted to work with CLJX, to enable sharing of schema between Datomic and Datascript.
-3. Added to-schema function. to-schema wraps the existing to-schema-transaction. For Clojure,
-it's just a pass-through. For ClojureScript, the resulting transaction data is converted to
-the map from required to initialize a Datascript instance.
+3. Added to-schema function. to-schema wraps the existing to-schema-transaction
+such that the resulting transaction data is converted to
+the map required to initialize a Datascript instance.
 4. Track entity definitions by reference (Clojure identical? function) and replace with :db/id
 if the same entity is used in multiple places.
 5. Dependency info (only internally available now): [allgress/datomic-helpers "2.0.1"]
