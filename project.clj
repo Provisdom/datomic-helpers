@@ -3,7 +3,7 @@
   :url "https://github.com/allgress/datomic-helpers"
   :license {:name "MIT License" :url "file://./LICENSE"}
   :dependencies [[org.clojure/clojure "1.7.0-alpha5"]
-                 [org.clojure/clojurescript "0.0-2629"]
+                 [org.clojure/clojurescript "0.0-2760"]
                  [com.cemerick/clojurescript.test "0.3.1"]
                  [datascript "0.9.0"]]
   :repositories [["s3" {:url "s3p://aurora-repository/releases/"
