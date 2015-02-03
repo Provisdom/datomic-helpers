@@ -1,5 +1,8 @@
 allgress/datomic-helpers
 ========================
+Revision 2.1.1
+--------------
+1. to-schema modified to accept set of allowed-attributes
 
 Revision 2.0.2
 --------------

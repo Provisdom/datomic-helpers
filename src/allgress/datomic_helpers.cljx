@@ -33,7 +33,7 @@
                        [id (cons (assoc translated-map :db/id id)
                                  (second translated-vals))]))
           (vector? v) (translate-values v)
-          :else [#+clj v #+cljs (if (keyword? v) [:db/ident v] v) nil])))
+          :else [v nil])))
 
 (defn to-transaction [data-map]
   (reset! dbids {})
@@ -65,8 +65,9 @@
                               (if-not (symbol? val)
                                 (let [[extra-props inner-val] (strip-props val)]
                                   (cons (merge {:db/ident              attr
-                                                :db/valueType          (if (or (map? inner-val)
-                                                                               (set? inner-val))
+                                                :db/valueType          (if #+clj (or (map? inner-val)
+                                                                                     (set? inner-val))
+                                                                           #+cljs (map? inner-val)
                                                                          :db.type/ref
                                                                          inner-val)
                                                 :db/cardinality        :db.cardinality/one ; just a default, may be overriden by extra-props
@@ -101,9 +102,13 @@
 
 #+cljs
 (defn to-schema
-  [tx-data]
-  (into {} (map (fn [x] [(:db/ident x) (into {} (filter (fn [[k v]] (or (#{:db/unique :db/cardinality} k)
-                                                                        (and (= :db/valueType k) (= :db.type/ref v)))) x))]) tx-data)))
+  [tx-data allowed-attributes]
+  (into {} (map (fn [x]
+                  [(:db/ident x)
+                   (into {} (filter (fn [[k v]]
+                                      (or ((clojure.set/union #{:db/unique :db/cardinality} allowed-attributes) k)
+                                          (and (= :db/valueType k) (= :db.type/ref v)))) x))])
+                tx-data)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Datomic API
