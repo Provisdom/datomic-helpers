@@ -6,10 +6,10 @@
                  [org.clojure/clojurescript "0.0-2760"]
                  [com.cemerick/clojurescript.test "0.3.3"]
                  [datascript "0.9.0"]]
-  :repositories [["s3" {:url "s3p://aurora-repository/releases/"
-                        :username :env/aws_key
-                        :passphrase :env/aws_secret
-                        :sign-releases false}]
-                 ["my.datomic.com" {:url "https://my.datomic.com/repo"
+  :repositories [["my.datomic.com" {:url "https://my.datomic.com/repo"
                                     :username :env/datomic_username
-                                    :password :env/datomic_password}]])
+                                    :password :env/datomic_password}]
+
+                 ["releases" {:url "http://archiva:8080/repository/internal"
+                              :username :env/archiva_username
+                              :password :env/archiva_password}]])

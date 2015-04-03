@@ -5,7 +5,9 @@
   :wagons '[[s3-wagon-private "1.1.2"]]
   :repositories [["clojars" "http://clojars.org/repo/"]
                  ["maven-central" "http://repo1.maven.org/maven2/"]
-                 ["s3" {:url "s3p://aurora-repository/releases/" :username (System/getenv "AWS_KEY") :passphrase (System/getenv "AWS_SECRET")}]
+                 ["releases" {:url "http://archiva:8080/repository/internal"
+                              :username (System/getenv "ARCHIVA_USERNAME")
+                              :password (System/getenv "ARCHIVA_PASSWORD")}]
                  ["my.datomic.com" {:url "https://my.datomic.com/repo"
                                     :username (System/getenv "DATOMIC_USERNAME")
                                     :password (System/getenv "DATOMIC_PASSWORD")}]]
@@ -15,7 +17,7 @@
                   [pandeiro/boot-http "0.6.2" :scope "test"]
                   [deraen/boot-cljx "0.2.2" :scope "test"]
                   [cljsjs/boot-cljsjs "0.4.6" :scope "test"]
-                  [allgress/boot-tasks "0.1.12" :scope "test"]
+                  [allgress/boot-tasks "0.1.17" :scope "test"]
                   #_[adzerk/bootlaces "0.1.8" :scope "test"]
                   [com.datomic/datomic-pro "0.9.5130" :scope "test" :exclusions [org.apache.httpcomponents/httpclient]]])
 
