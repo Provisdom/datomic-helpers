@@ -3,7 +3,7 @@
 ;;;; See LICENSE for details.
 
 (ns allgress.datomic-helpers
-  #+cljs (:require [datascript :as d]))
+  #?(:cljs (:require [datascript :as d])))
 
 (declare tempid)
 
@@ -65,9 +65,9 @@
                               (if-not (symbol? val)
                                 (let [[extra-props inner-val] (strip-props val)]
                                   (cons (merge {:db/ident              attr
-                                                :db/valueType          (if #+clj (or (map? inner-val)
-                                                                                     (set? inner-val))
-                                                                           #+cljs (map? inner-val)
+                                                :db/valueType          (if #?(:clj  (or (map? inner-val)
+                                                                                        (set? inner-val))
+                                                                              :cljs (map? inner-val))
                                                                          :db.type/ref
                                                                          inner-val)
                                                 :db/cardinality        :db.cardinality/one ; just a default, may be overriden by extra-props
@@ -89,26 +89,26 @@
       ;; attribute definition
       (if (apply not= (map #(dissoc %1 :db/id)
                            (groups attr)))
-        (throw #+clj (IllegalArgumentException.
-                       (str "Different definitions of attribute " attr " : "
-                            (groups attr)))
-               #+cljs (js/Error.
-                        (str "Different definitions of attribute " attr " : "
-                             (groups attr))))
+        (throw #?(:clj  (IllegalArgumentException.
+                          (str "Different definitions of attribute " attr " : "
+                               (groups attr)))
+                  :cljs (js/Error.
+                          (str "Different definitions of attribute " attr " : "
+                               (groups attr)))))
         (first (groups attr))))))
 
 (defn to-schema-transaction [type]
   (doall (cleanup-duplicates (to-schema-transaction- type))))
 
-#+cljs
-(defn to-schema
-  [tx-data allowed-attributes]
-  (into {} (map (fn [x]
-                  [(:db/ident x)
-                   (into {} (filter (fn [[k v]]
-                                      (or ((clojure.set/union #{:db/unique :db/cardinality} allowed-attributes) k)
-                                          (and (= :db/valueType k) (= :db.type/ref v)))) x))])
-                tx-data)))
+#?(:cljs
+   (defn to-schema
+     [tx-data allowed-attributes]
+     (into {} (map (fn [x]
+                     [(:db/ident x)
+                      (into {} (filter (fn [[k v]]
+                                         (or ((clojure.set/union #{:db/unique :db/cardinality} allowed-attributes) k)
+                                             (and (= :db/valueType k) (= :db.type/ref v)))) x))])
+                   tx-data))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Datomic API
@@ -120,19 +120,20 @@
 ;;; we can depend upon.
 ;;; Therefore we use reflection to invoke datomic.Peer/tempid
 ;;; method.
-#+clj
-(defn tempid
-  [partition]
-  (.invoke (.getMethod (Class/forName "datomic.Peer")
-                       "tempid"
-                       (into-array Class [Object]))
-           nil
-           (to-array [partition])))
 
-#+cljs
-(defn tempid
-  [partition]
-  (d/tempid partition))
+#?(:clj
+   (defn tempid
+     [partition]
+     (.invoke (.getMethod (Class/forName "datomic.Peer")
+                          "tempid"
+                          (into-array Class [Object]))
+              nil
+              (to-array [partition])))
+
+   :cljs
+   (defn tempid
+     [partition]
+     (d/tempid partition)))
 ;;;
 ;;; If you covnert huge amount of data and want to avoid
 ;;; reflection for speedup, just redefine the above
