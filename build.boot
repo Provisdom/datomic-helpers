@@ -11,13 +11,13 @@
                  ["my.datomic.com" {:url "https://my.datomic.com/repo"
                                     :username (System/getenv "DATOMIC_USERNAME")
                                     :password (System/getenv "DATOMIC_PASSWORD")}]]
-  :dependencies '[[adzerk/boot-cljs "0.0-2760-0" :scope "test"]
-                  [adzerk/boot-cljs-repl "0.1.8" :scope "test"]
+  :dependencies '[[adzerk/boot-cljs "0.0-3269-1" :scope "test"]
+                  [adzerk/boot-cljs-repl "0.1.9" :scope "test"]
                   [adzerk/boot-reload "0.2.4" :scope "test"]
                   [pandeiro/boot-http "0.6.2" :scope "test"]
                   [deraen/boot-cljx "0.2.2" :scope "test"]
-                  [cljsjs/boot-cljsjs "0.4.6" :scope "test"]
-                  [allgress/boot-tasks "0.1.17" :scope "test"]
+                  [cljsjs/boot-cljsjs "0.4.8" :scope "test"]
+                  [allgress/boot-tasks "0.2.2" :scope "test"]
                   #_[adzerk/bootlaces "0.1.8" :scope "test"]
                   [com.datomic/datomic-pro "0.9.5130" :scope "test" :exclusions [org.apache.httpcomponents/httpclient]]])
 
