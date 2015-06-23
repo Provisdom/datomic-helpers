@@ -65,11 +65,19 @@
                               (if-not (symbol? val)
                                 (let [[extra-props inner-val] (strip-props val)]
                                   (cons (merge {:db/ident              attr
-                                                :db/valueType          (if #?(:clj  (or (map? inner-val)
-                                                                                        (set? inner-val))
-                                                                              :cljs (map? inner-val))
-                                                                         :db.type/ref
-                                                                         inner-val)
+                                                :db/valueType          #?(:clj (if (or (map? inner-val)
+                                                                                       (set? inner-val))                                                                                 :db.type/ref
+                                                                                 inner-val)
+                                                                          :cljs (cond
+                                                                                  (map? inner-val)
+                                                                                  :db.type/ref
+
+                                                                                  (set? inner-val)
+                                                                                  :db.type/keyword
+
+                                                                                  :else
+                                                                                  inner-val))
+
                                                 :db/cardinality        :db.cardinality/one ; just a default, may be overriden by extra-props
                                                 :db.install/_attribute :db.part/db
                                                 :db/id                 (tempid :db.part/db)}
