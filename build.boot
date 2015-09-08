@@ -2,7 +2,6 @@
   :source-paths #{"src" "test"}
   :resource-paths #{"src"}
   :asset-paths #{}
-  :wagons '[[s3-wagon-private "1.1.2"]]
   :repositories [["clojars" "http://clojars.org/repo/"]
                  ["maven-central" "http://repo1.maven.org/maven2/"]
                  ["releases" {:url "http://archiva:8080/repository/internal"
@@ -13,10 +12,9 @@
                                     :password (System/getenv "DATOMIC_PASSWORD")}]]
   :dependencies '[[adzerk/boot-cljs "0.0-3308-0" :scope "test"]
                   [adzerk/boot-cljs-repl "0.1.9" :scope "test"]
-                  [adzerk/boot-reload "0.3.1" :scope "test"]
-                  [pandeiro/boot-http "0.6.2" :scope "test"]
-                  [cljsjs/boot-cljsjs "0.5.0" :scope "test"]
-                  [allgress/boot-tasks "0.2.2" :scope "test"]
+                  [adzerk/boot-reload "0.3.2" :scope "test"]
+                  [pandeiro/boot-http "0.6.3" :scope "test"]
+                  [allgress/boot-tasks "0.2.3" :scope "test"]
                   [com.datomic/datomic-pro "0.9.5130" :scope "test" :exclusions [org.apache.httpcomponents/httpclient]]])
 
 (require
