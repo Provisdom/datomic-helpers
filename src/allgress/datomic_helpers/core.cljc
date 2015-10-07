@@ -2,8 +2,8 @@
 ;;;; Extensions by Allgress Inc.
 ;;;; See LICENSE for details.
 
-(ns allgress.datomic-helpers
-  #?(:cljs (:require [datascript :as d])))
+(ns allgress.datomic-helpers.core
+  #?(:cljs (:require [datascript.core :as d])))
 
 (declare tempid)
 
@@ -19,21 +19,21 @@
   ;;    a vector with maps replaced by :db/id's if V is a vector, etc.)
   ;; 2. The sequence of maps which were replaced by their new :db/id's,
   ;;    each map already contains the :db/id.
-  (letfn  [(translate-values [values]
+  (letfn [(translate-values [values]
                             (let [mapped (map translate-value values)]
                               [(reduce conj [] (map first mapped))
                                (reduce concat '() (map second mapped))]))]
     (cond (map? v) (if (= (set (keys v)) #{:lang :imports :requires :params :code :fnref})
                      [v nil]
                      (if-let [existing-id (some #(when (identical? v (first %)) (second %)) @dbids)]
-                      [existing-id nil]
-                      (let [id (tempid :db.part/user)
-                            d (swap! dbids assoc v id)
-                            translated-vals (translate-values (vals v))
-                            translated-map (zipmap (keys v)
-                                                   (first translated-vals))]
-                        [id (cons (assoc translated-map :db/id id)
-                                  (second translated-vals))])))
+                       [existing-id nil]
+                       (let [id (tempid :db.part/user)
+                             d (swap! dbids assoc v id)
+                             translated-vals (translate-values (vals v))
+                             translated-map (zipmap (keys v)
+                                                    (first translated-vals))]
+                         [id (cons (assoc translated-map :db/id id)
+                                   (second translated-vals))])))
           (vector? v) (translate-values v)
           :else [v nil])))
 
@@ -67,9 +67,9 @@
                               (if-not (symbol? val)
                                 (let [[extra-props inner-val] (strip-props val)]
                                   (cons (merge {:db/ident              attr
-                                                :db/valueType          #?(:clj (if (or (map? inner-val)
-                                                                                       (set? inner-val))                                                                                 :db.type/ref
-                                                                                 inner-val)
+                                                :db/valueType          #?(:clj  (if (or (map? inner-val)
+                                                                                        (set? inner-val)) :db.type/ref
+                                                                                                          inner-val)
                                                                           :cljs (cond
                                                                                   (map? inner-val)
                                                                                   :db.type/ref
