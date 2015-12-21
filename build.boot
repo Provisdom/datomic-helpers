@@ -11,7 +11,7 @@
                   [adzerk/boot-reload "0.4.0" :scope "test"]
                   [pandeiro/boot-http "0.6.3" :scope "test"]
                   [allgress/boot-tasks "0.2.3" :scope "test"]
-                  [com.datomic/datomic-pro "0.9.5130" :scope "test" :exclusions [org.apache.httpcomponents/httpclient]]])
+                  [com.datomic/datomic-pro "0.9.5327" :scope "test" :exclusions [org.apache.httpcomponents/httpclient]]])
 
 (require
   '[adzerk.boot-cljs :refer :all]
