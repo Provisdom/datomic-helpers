@@ -2,7 +2,7 @@
 ;;;; Extensions by Allgress Inc.
 ;;;; See LICENSE for details.
 
-(ns allgress.datomic-helpers.core
+(ns provisdom.datomic-helpers.core
   #?(:cljs (:require [datascript.core :as d])))
 
 (declare tempid)
