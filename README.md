@@ -1,6 +1,6 @@
 # allgress/datomic-helpers [![Build Status](http://54.67.24.248:8080/buildStatus/icon?job=datomic-helpers)](http://54.67.24.248:8080/job/datomic-helpers/)
 
-Changes in Allgress Version
+Changes in Provisdom Version
 ===========================
 1. Set up to build with boot.
 2. Converted to work with CLJX, to enable sharing of schema between Datomic and Datascript.
