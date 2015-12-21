@@ -1,4 +1,4 @@
-# allgress/datomic-helpers [![Build Status](http://54.67.24.248:8080/buildStatus/icon?job=datomic-helpers)](http://54.67.24.248:8080/job/datomic-helpers/)
+# provisdom/datomic-helpers
 
 Changes in Provisdom Version
 ===========================
